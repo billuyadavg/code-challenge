@@ -53,7 +53,8 @@
       </div>
       <div class="col-lg offset-lg-1">
         <div class="form-group">
-          <%= f.text_field :email, class: "form-control", placeholder: "hello@company.com"%>
+          <%= f.email_field :email, class: "form-control", placeholder: "abc@getmainstreet.com", pattern: '^([a-zA-Z0-9_.+-])+@getmainstreet.com$', id: 'email-field', onkeyup: "validateEmail(event)"%>
+          <span id="email-error" class="text-danger"></span>
         </div>
       </div>
     </div>
@@ -70,11 +71,40 @@
     </div>
 
     <div class="row my-lg-3">
+      <div class="col-lg-3">
+        <label><strong>Brand Color</strong><br><small class="text-muted">Choose brand color of the company</small></label>
+      </div>
+      <div class="col-lg offset-lg-1">
+          <%= f.color_field :color_code, class: "form-control", placeholder: "Company Brand Color", required: true %>
+      </div>
+    </div>
+
+
+    <div class="row my-lg-3">
       <div class="col">
         <div class="form-group">
+          <%#= f.submit class: "btn btn-success", onClick: "validateEmail(event)"%>
           <%= f.submit class: "btn btn-success"%>
         </div>
       </div>
     </div>
   <% end %>
 </div>
+
+<script type="text/javascript" >
+  function validateEmail(e){
+    e.preventDefault();
+    var companyEmail = document.getElementById("email-field").value
+    if(companyEmail.length > 0){
+      if (!/@getmainstreet.com\s*$/.test(companyEmail)) {
+        document.getElementById("email-error").innerHTML = 'Email should end with domain @getmainstreet.com'
+        document.getElementById("email-field").classList.add('email-error');
+        return false;
+      }else{
+        document.getElementById("email-field").classList.remove('email-error');
+        document.getElementById("email-error").innerHTML = '';
+         $('form').submit();
+      }
+    }
+  }
+</script> 
